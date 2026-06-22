@@ -1,3 +1,4 @@
+import "./CreateProject.css";
 import { useState } from "react";
 import "./CreateProject.css";
 
