@@ -9,17 +9,34 @@ function CreateProject() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await fetch("http://localhost:5000/api/projects", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, description, deadline })
-    });
+    try {
+      await fetch(
+        "https://project-management-backend-d8uv.onrender.com/api/projects",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            title,
+            description,
+            deadline
+          })
+        }
+      );
 
-    alert("Project Created Successfully");
+      alert("Project Created Successfully");
 
-    setTitle("");
-    setDescription("");
-    setDeadline("");
+      setTitle("");
+      setDescription("");
+      setDeadline("");
+
+      // Dashboard par wapas bhej do
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+      alert("Error creating project");
+    }
   };
 
   return (
