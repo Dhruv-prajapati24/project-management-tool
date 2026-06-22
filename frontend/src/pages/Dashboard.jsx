@@ -1,18 +1,30 @@
 import { useEffect, useState } from "react";
-import "./Dashboard.css";
 
 function Dashboard() {
   const [projects, setProjects] = useState([]);
 
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch(
+        "https://project-management-backend-d8uv.onrender.com/api/projects"
+      );
+
+      const data = await res.json();
+      setProjects(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    fetch("http://localhost:5000/api/projects")
-      .then((res) => res.json())
-      .then((data) => setProjects(data));
+    fetchProjects();
   }, []);
 
   return (
     <div>
-      <h1>Project Dashboard</h1>
+      <h1>Dashboard</h1>
+
+      <button onClick={fetchProjects}>Refresh</button>
 
       <div className="container">
         {projects.length === 0 ? (
@@ -22,7 +34,9 @@ function Dashboard() {
             <div className="card" key={p._id}>
               <h3>{p.title}</h3>
               <p>{p.description}</p>
-              <p className="deadline">{p.deadline}</p>
+              <p>
+                Deadline: {new Date(p.deadline).toLocaleDateString()}
+              </p>
             </div>
           ))
         )}
